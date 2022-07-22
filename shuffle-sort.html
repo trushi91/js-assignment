@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Shuffle and Sort</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <style>
+            body {
+                font-family: sans-serif;
+                margin: 0;
+            }
+            h5 {
+                width: 40%;
+                text-align: center;
+            }
+            .card-container {
+                width: 40%;
+                border-top: 4px solid #bbb;
+                background: #EFEFEF;
+                display: flex;
+                flex-direction: row;
+            }
+            .card-container-left {
+                flex: 75%;
+            }
+            .card-container-right {
+                flex: 25%;
+            }
+            ul#sortShuffle {
+                display: block;
+                padding: 0;
+                list-style: none;
+                margin-top: 0;
+                margin-bottom: 50px;
+            }
+            ul#sortShuffle li {
+                width: 32.5%;
+                height: 120px;
+                display: inline-block;
+                text-align: center;
+                line-height: 120px;
+                font-size: 4em;
+                color: #fff;
+            }
+            .bg-blue {
+                background: #2B8EAD;
+            }
+            .bg-grey {
+                background: #BFBFBF;
+            }
+            .bg-teal {
+                background: #2F454E;
+            }
+            .bg-blueish-grey {
+                background: #6F98A8;
+            }
+            .btn-card button {
+                display: block;
+                text-align: center;
+                margin: 20px auto;
+                width: 80%;
+                padding: 4px;
+                border: none;
+                border-bottom: 4px solid #2B8EAD;
+                background: #72C3DC;
+                border-radius: 5px;
+                color: #fff;
+                text-transform: uppercase;
+                font-size: 8px;
+                line-height: 18px;
+            }
+            @media (min-width: 960px) and (max-width: 1279px){
+                .card-container {
+                    width: 60%;
+                }
+            }
+            @media(min-width: 375px) and (max-width: 767px) {
+                .card-container {
+                    background: none;
+                    width: 90%;
+                    flex-direction: column-reverse;
+                    border: none;
+                    margin: 0 auto;
+                }
+                h5{
+                    width: 97%;
+                    margin: 0 auto;
+                    background: #000;
+                    color: #fff;
+                    padding: 10px 5px;
+                }
+                ul#sortShuffle li {
+                    width: 100%;
+                    background: #ccc;
+                    height: auto;
+                    display: inline-block;
+                    text-align: center;
+                    line-height: 28px;
+                    font-size: 18px;
+                    color: #000;
+                    margin-bottom: 3px;
+                }
+                li.bg-blueish-grey {
+                    border-left: 5px solid #6F98A8;
+                }
+                li.bg-teal {
+                    border-left: 5px solid #2F454E;
+                }
+                li.bg-grey {
+                    border-left: 5px solid #BFBFBF;
+                }
+                li.bg-blue {
+                    border-left: 5px solid #2B8EAD;
+                }
+                .btn-card {
+                    text-align: center;
+                }
+                .btn-card button {
+                    display: inline-block;
+                    text-align: center;
+                    margin: 20px auto;
+                    width: 25%;
+                    padding: 10px 4px;
+                    border: none;
+                    border-bottom: 4px solid #2B8EAD;
+                    background: #72C3DC;
+                    border-radius: 5px;
+                    color: #fff;
+                    text-transform: uppercase;
+                    font-size: 12px;
+                    line-height: 18px;
+                }
+            }
+        </style>
+
+        <h5>Shuffle and Sort</h5>
+        <div class="card-container">
+            <div class="card-container-left">
+                <ul class="card-section" id="sortShuffle">
+                    <li class="section1 bg-blueish-grey">1</li>
+                    <li class="section2 bg-blue">2</li>
+                    <li class="section3 bg-teal">3</li>
+                    <li class="section4 bg-blue">4</li>
+                    <li class="section5 bg-teal">5</li>
+                    <li class="section6 bg-grey">6</li>
+                    <li class="section7 bg-grey">7</li>
+                    <li class="section8 bg-blueish-grey">8</li>
+                    <li class="section9 bg-teal">9</li>
+                </ul>
+            </div>
+            <div class="card-container-right">
+                <div class="btn-card">
+                    <button id="shuffle" class="btn-shuffle">Shuffle</button>
+                    <button id="sort" class="btn-sort">Sort</button>
+                </div>
+            </div>
+        </div>
+        <!--<div class="tag-name"><em>Shuffle and sort by Trushita</em></div> -->
+        <script>    
+            window.onload = function(){
+
+                var cardList = document.getElementById("sortShuffle");
+
+                function shuffle(items){
+                    var cardNo = items.slice(0), temp, i = cardNo.length, rand;
+
+                    while(--i) {
+                        rand = Math.floor(i * Math.random());
+                        temp = cardNo[rand];
+                        cardNo[rand] = cardNo[i];
+                        cardNo[i] = temp;
+                    }
+
+                    return cardNo;
+                }
+                function sortCards(){
+                    var sortList = cardList.children, i = 0, sortArr = {};
+
+                    while(i < sortList.length) {
+                        sortArr[sortList[i].innerHTML] = sortList[i];
+                        i++;
+                    }
+
+                    for(var index in sortArr) {
+                        cardList.appendChild(sortArr[index])
+                    }
+                }
+
+                function shuffleCards(){
+                    var shuffleList = cardList.children, i =0;
+
+                    shuffleList = Array.prototype.slice.call(shuffleList);
+                    shuffleList = shuffle(shuffleList);
+
+                    while(i < shuffleList.length) {
+                        cardList.appendChild(shuffleList[i]);
+                        i++;
+                    }
+                }
+
+                document.getElementById("sort").onclick = sortCards;
+                document.getElementById("shuffle").onclick = shuffleCards;
+            }
+        </script>
+    </body>
+</html>
